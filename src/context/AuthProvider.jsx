@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import {getRedirectPathByRole} from "../components/getRedirectPathByRole";
+import {getRedirectPathByRole} from "../components/redirect/getRedirectPathByRole";
 
 const AuthContext = createContext();
 

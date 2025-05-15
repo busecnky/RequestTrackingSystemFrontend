@@ -6,7 +6,7 @@ import { AuthProvider } from './context/AuthProvider';
 import AdminHomePage from "./pages/admin-home-page/AdminHomePage"
 import UserHomePage from "./pages/user-home-page/UserHomePage"
 import ProtectedRoute from './routes/ProtectedRoute';
-import RedirectByRole from './components/RedirectByRole';
+import RedirectByRole from './components/redirect/RedirectByRole';
 
 function App() {
   return (

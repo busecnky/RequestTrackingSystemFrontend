@@ -1,3 +1,4 @@
+import "./loginPage.scss"
 import { useAuth } from "../../context/AuthProvider";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -54,7 +55,7 @@ const LoginPage = () => {
           helperText={formik.touched.username && formik.errors.username}
           sx={{
             '& input:-webkit-autofill': {
-              WebkitBoxShadow: '0 0 0 100px inset !important',
+              WebkitBoxShadow: '0 0 0 100px white inset !important',
               WebkitTextFillColor: 'black !important',
             },
           }}
@@ -80,7 +81,16 @@ const LoginPage = () => {
       </form>
         <p>
             If you don't have an account{" "}
-            <Link to="/register">Sign Up</Link>
+        <Link
+          to="/register"
+          style={{ 
+            textDecoration: 'none', fontWeight: 'bold', color: '#1976d2',
+          }}
+          sx={{
+            '&:visited': {
+              color: '#1976d2',
+            },
+          }}>Sign Up</Link>
         </p>
 
     </Box>

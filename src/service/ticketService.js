@@ -10,18 +10,29 @@ export const getMyTickets = (token) =>
     headers: { Authorization: `Bearer ${token}` },
   });
 
-export const getAllTickets = (status, token) => {
-  const url = status ? `/tickets?status=${status}` : `/tickets`;
-  return axios.get(url, {
+export const getAllTicketsByStatus = (ticketStatus, token) => {
+  return axios.get(`/tickets`, {
+      params: ticketStatus ? { ticketStatus } : {},
+      headers: { Authorization: `Bearer ${token}` },
+    });
+};
+
+export const respondToTicket = (id, responseText, token) => {
+  return axios.post(`/tickets/${id}/respond`,
+    {},
+    {
+      params: { responseText },
     headers: { Authorization: `Bearer ${token}` },
   });
 };
 
-export const respondToTicket = (id, responseText, token) =>
-  axios.post(
-    `/tickets/${id}/respond`,
-    { response: responseText },
+export const updateStatus = (id, ticketStatus, token) => {
+  return axios.put(`/tickets/${id}/status`,
+    {},
     {
+      params: { ticketStatus },
       headers: { Authorization: `Bearer ${token}` },
     }
   );
+};
+

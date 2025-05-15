@@ -49,9 +49,9 @@ const RegisterPage = () => {
           onChange={formik.handleChange}
           error={formik.touched.email && Boolean(formik.errors.email)}
           helperText={formik.touched.email && formik.errors.email}
-                    sx={{
+          sx={{
             '& input:-webkit-autofill': {
-              WebkitBoxShadow: '0 0 0 100px inset !important',
+              WebkitBoxShadow: '0 0 0 100px white inset !important',
               WebkitTextFillColor: 'black !important',
             },
           }}
@@ -66,9 +66,9 @@ const RegisterPage = () => {
           onChange={formik.handleChange}
           error={formik.touched.username && Boolean(formik.errors.username)}
           helperText={formik.touched.username && formik.errors.username}
-                    sx={{
+          sx={{
             '& input:-webkit-autofill': {
-              WebkitBoxShadow: '0 0 0 100px inset !important',
+              WebkitBoxShadow: '0 0 0 100px white inset !important',
               WebkitTextFillColor: 'black !important',
             },
           }}
@@ -94,7 +94,13 @@ const RegisterPage = () => {
       </form>
         <p>
           If you already have an account{" "}
-          <Link to="/login">Sign in</Link>
+          <Link to="/login"
+          style={{ textDecoration: 'none', fontWeight: 'bold', color: '#1976d2' }}
+          sx={{
+            '&:visited': {
+              color: 'blue',
+            },
+          }}>Sign in</Link>
         </p>
     </Box>
 
