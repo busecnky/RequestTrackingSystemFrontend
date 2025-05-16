@@ -10,8 +10,9 @@ import {
   Typography
 } from "@mui/material";
 import { useState } from "react";
-import { updateStatus, respondToTicket  } from "../../service/ticketService"
-
+import { updateStatus, respondToTicket } from "../../service/ticketService";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const style = {
   position: 'absolute',
@@ -26,6 +27,11 @@ const style = {
   backgroundColor: 'rgb(255, 255, 255)'
 };
 
+const validationSchema = Yup.object({
+  status: Yup.string().required("Status is required"),
+  responseText: Yup.string().required("Response is required"),
+});
+
 const UpdateTicketModal = ({
   open,
   handleClose,
@@ -33,33 +39,41 @@ const UpdateTicketModal = ({
   token,
   onUpdateSuccess
 }) => {
-  const [status, setStatus] = useState('');
-  const [responseText, setResponseText] = useState('');
+  const formik = useFormik({
+    initialValues: {
+      status: '',
+      responseText: '',
+    },
+    validationSchema: validationSchema,
+    onSubmit: async (values) => {
+      console.log("Updating ticket ID:", ticketId, "with values:", values);
 
-  const handleSubmit = async () => {
-    console.log("Updating ticket ID:", ticketId, "with status:", status);
+      try {
+        if (!ticketId) return;
 
-    try {
-      if (!ticketId) return;
+        if (values.status) {
+          console.log(values.status);
+          await updateStatus(ticketId, values.status, token);
+        }
 
-      if (status) {
-        console.log(status);
-        await updateStatus(ticketId, status, token);
+        if (values.responseText.trim() !== '') {
+          await respondToTicket(ticketId, values.responseText, token);
+        }
+
+        alert('Ticket updated!');
+        handleCloseWithReset();
+        onUpdateSuccess?.();
+      } catch (err) {
+        console.error(err);
+        alert('Error updating ticket.');
       }
-
-      if (responseText.trim() !== '') {
-        await respondToTicket(ticketId, responseText, token);
-      }
-
-      alert('Ticket updated!');
-      handleClose();
-      onUpdateSuccess?.();
-    } catch (err) {
-      console.error(err);
-      alert('Error updating ticket.');
-    }
+    },
+  });
+  const handleCloseWithReset = () => {
+    formik.resetForm(); 
+    handleClose();
   };
-
+  
   return (
     <Modal
       open={open}
@@ -81,15 +95,22 @@ const UpdateTicketModal = ({
         </Typography>
 
         <FormControl fullWidth sx={{ mb: 2 }}>
-          <InputLabel>Status</InputLabel>
+          <InputLabel id="status-label">Status</InputLabel>
           <Select
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
+            labelId="status-label"
+            id="status"
+            name="status"
+            value={formik.values.status}
+            onChange={formik.handleChange}
             label="Status"
+            error={formik.touched.status && Boolean(formik.errors.status)}
           >
             <MenuItem value="RESPONDED">RESPONDED</MenuItem>
             <MenuItem value="CLOSED">CLOSED</MenuItem>
           </Select>
+          {formik.touched.status && formik.errors.status && (
+            <Typography color="red">{formik.errors.status}</Typography>
+          )}
         </FormControl>
 
         <TextField
@@ -97,12 +118,20 @@ const UpdateTicketModal = ({
           multiline
           rows={4}
           fullWidth
-          value={responseText}
-          onChange={(e) => setResponseText(e.target.value)}
+          id="responseText"
+          name="responseText"
+          value={formik.values.responseText}
+          onChange={formik.handleChange}
+          error={formik.touched.responseText && Boolean(formik.errors.responseText)}
+          helperText={formik.touched.responseText && formik.errors.responseText}
           sx={{ mb: 2 }}
+          required
         />
+        {formik.touched.responseText && formik.errors.responseText && (
+          <Typography color="red">{formik.errors.responseText}</Typography>
+        )}
 
-        <Button variant="contained" color="primary" onClick={handleSubmit}>
+        <Button variant="contained" color="primary" onClick={formik.handleSubmit}>
           Submit
         </Button>
       </Box>
