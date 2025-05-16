@@ -38,6 +38,7 @@ Built with:
 
 
 ### 2. Project Structure
+```
 frontend/
  └── src/
      ├── components/
@@ -46,7 +47,7 @@ frontend/
      ├── routes/
      ├── service/
      └── App.jsx
-
+```
 ### 3. Running the Project
 
 1. Clone the repository:
