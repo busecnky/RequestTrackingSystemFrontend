@@ -19,12 +19,10 @@
         .user-title-select {
             display: flex;
             flex-direction: column;
-            border-radius: 5px;
-            gap: 5px;
+            gap: 10px;
             width: 25%;
 
-            input[type="text"],
-            select {
+            .user-title {
                 padding: 10px;
                 border: 1px solid #ccc;
                 border-radius: 5px;
@@ -34,16 +32,10 @@
         }
 
         textarea {
-            min-height: 100px;
+            min-height: 70px;
             flex-grow: 1;
             border-radius: 5px;
             border: 1px solid #ccc;
-
-
-        }
-
-        select {
-            width: auto;
         }
 
         button[type="submit"] {

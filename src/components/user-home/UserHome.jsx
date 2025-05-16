@@ -2,7 +2,12 @@ import "./userHome.scss"
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthProvider";
 import { getMyTickets, createTicket } from "../../service/ticketService"
-
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select
+} from "@mui/material";
 
 const UserHomePage = () => {
   const { token } = useAuth();
@@ -40,22 +45,32 @@ const UserHomePage = () => {
       <h2>User Home Page</h2>
       <form onSubmit={handleSubmit}>
         <div className="user-title-select">
-          <input
+          <input className="user-title"
             type="text"
             placeholder="Title"
             value={form.title}
             onChange={(e) => setForm({ ...form, title: e.target.value })}
           />
-          <select
-            value={form.category}
-            onChange={(e) => setForm({ ...form, category: e.target.value })}
-          >
-            <option value="SERVICE">SERVICE</option>
-            <option value="PROBLEM">PROBLEM</option>
-            <option value="REQUEST">REQUEST</option>
-          </select>
-        </div>
+          <div className="user-select">
 
+            <FormControl fullWidth>
+              <InputLabel id="select-label">Category</InputLabel>
+              <Select
+                labelId="select-label"
+                id="select"
+                value={form.category}
+                label="Category"
+                onChange={(e) => {
+                  setForm({ ...form, category: e.target.value });
+                }}
+              >
+                <MenuItem value="SERVICE">SERVICE</MenuItem>
+                <MenuItem value="PROBLEM">PROBLEM</MenuItem>
+                <MenuItem value="REQUEST">REQUEST</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+        </div>
         <textarea
           placeholder="Description"
           value={form.description}
