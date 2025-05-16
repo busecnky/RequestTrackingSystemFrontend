@@ -3,6 +3,7 @@ import axios from "./axiosInstance";
 export const createTicket = (data, token) =>
   axios.post("/tickets", data, {
     headers: { Authorization: `Bearer ${token}` },
+      "Content-Type": "application/json",
   });
 
 export const getMyTickets = (token) =>

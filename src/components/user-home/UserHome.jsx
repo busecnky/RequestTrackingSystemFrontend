@@ -14,9 +14,10 @@ const UserHomePage = () => {
   const [tickets, setTickets] = useState([]);
   const [errors, setErrors] = useState({});
   const [form, setForm] = useState({
-    title: "",
+    title: "",    
+    ticketCategory: "SERVICE",
     description: "",
-    category: "SERVICE",
+
   });
 
   useEffect(() => {
@@ -25,8 +26,9 @@ const UserHomePage = () => {
       .catch((err) => console.error(err));
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e) => {    
     e.preventDefault();
+    console.log(form)
     createTicket(form, token)
       .then(() => window.location.reload())
       .catch((error) => {
@@ -52,17 +54,15 @@ const UserHomePage = () => {
             onChange={(e) => setForm({ ...form, title: e.target.value })}
           />
           <div className="user-select">
-
             <FormControl fullWidth>
-              <InputLabel id="select-label">Category</InputLabel>
+              <InputLabel id="category-label">Category</InputLabel>
               <Select
-                labelId="select-label"
-                id="select"
-                value={form.category}
+                labelId="category-label"
+                id="category"
+                value={form.ticketCategory}
                 label="Category"
-                onChange={(e) => {
-                  setForm({ ...form, category: e.target.value });
-                }}
+                onChange={(e) => 
+                setForm({ ...form, ticketCategory: e.target.value })}
               >
                 <MenuItem value="SERVICE">SERVICE</MenuItem>
                 <MenuItem value="PROBLEM">PROBLEM</MenuItem>
@@ -85,14 +85,16 @@ const UserHomePage = () => {
       <ul>
         <div className="ticket-user-header">
           <p>Title </p>
+          <p>Category </p>
           <p>Status</p>
-          <p>Description </p>
+          <p>Description</p>
           <p>Response</p>
         </div>
         {tickets.map((req) => (
           <li className="ticket-user-container" key={req.id}>
             <div className="ticket-user-cell">
               <div className="user-cell"><strong>{req.title}</strong></div>
+              <div className="user-cell"><span>{req.category}</span></div>
               <div className="user-cell"><span>{req.status}</span></div>
               <div className="user-cell"><span>{req.description}</span></div>
               <div className="user-cell">{req.response || "No response yet"}</div>

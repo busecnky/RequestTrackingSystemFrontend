@@ -78,11 +78,11 @@ const AdminHome = () => {
 
       <ul>
         <div className="ticket-header">
-          <p>Created by </p>
-          <p>Title </p>
+          <p>Created by</p>
+          <p>Title</p>
           <p>Status</p>
-          <p>Description </p>
-          <p>Response </p>
+          <p>Description</p>
+          <p>Response</p>
           <p></p>
         </div>
         {tickets.map((req) => (
